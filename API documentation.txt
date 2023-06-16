@@ -99,3 +99,29 @@ ADD IMAGE
     Response        :   {
     				"url": "https://storage.googleapis.com/scantionpicture/{filename}"
 			}
+
+GET ALL SKIN per user autentikasi
+    URL             : /skin
+    Method          : GET
+    Authorization   : access_token
+    Response        :   
+		{
+        		"id": "93ea056a-0ed1-4649-826a-a92c73103dcc",
+        		"date": "2022-10-10",
+        		"user_id": "5c1fa253-e19a-44a1-9360-f1c40fcff1bd",
+        		"bodypart": "head",
+        		"since": "2022-10-10",
+        		"symptom": "itch",
+        		"cancertype": "melanoma",
+        		"accu": 90
+    		},
+    		{
+        		"id": "9ae74282-4b96-4bb6-965f-1d6e356010c7",
+        		"date": "2022-10-10",
+        		"user_id": "5c1fa253-e19a-44a1-9360-f1c40fcff1bd",
+        		"bodypart": "Hand",
+        		"since": "2022-10-10",
+        		"symptom": "gatal",
+        		"cancertype": "melanoma",
+        		"accu": 90
+    		}

@@ -23,6 +23,7 @@ class CreateSkindataTable extends Migration
             $table->string('symptom',255);
             $table->string('cancertype');
             $table->float('accu');
+            $table->string('link');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

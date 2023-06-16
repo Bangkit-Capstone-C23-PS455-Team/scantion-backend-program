@@ -13,7 +13,7 @@ class skinmodel extends Model
     protected $keyType='string';
 
     protected $table = 'skindata';
-    protected $fillable = ['user_id', 'bodypart', 'symptom', 'since','cancertype','date', 'accu'];
+    protected $fillable = ['user_id', 'bodypart', 'symptom', 'since','cancertype','date', 'accu','link'];
     public $timestamps = false;
 
     protected static function boot(){

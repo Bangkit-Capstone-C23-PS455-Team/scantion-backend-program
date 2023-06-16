@@ -31,8 +31,8 @@ return [
     ],
     'google' => [
         'storage' => [
-            'project_id' => env('GOOGLE_CLOUD_PROJECT_ID', ' YOUR_PROJECTID'),
-            'key_file' => env('GOOGLE_CLOUD_KEY_FILE', YOUR_KEYFILE_PATH"),
+            'project_id' => env('GOOGLE_CLOUD_PROJECT_ID', 'projectscantion'),
+            'key_file' => env('GOOGLE_CLOUD_KEY_FILE', base_path()."\keyfile.json"),
         ],
     ],
 

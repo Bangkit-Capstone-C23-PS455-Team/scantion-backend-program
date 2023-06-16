@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update/{id?}', [\App\Http\Controllers\Api\AuthController::class, 'update']);
     Route::post('/addskin/{id?}', [\App\Http\Controllers\Api\AuthController::class, 'addskin']);
     Route::post('/store', [\App\Http\Controllers\Api\AuthController::class, 'store']);
+    Route::get('/skin',[\App\Http\Controllers\Api\AuthController::class, 'skinmodel']);
 });
 
 // Route::get('/allusers',[usercontroller::class, 'alldata']);

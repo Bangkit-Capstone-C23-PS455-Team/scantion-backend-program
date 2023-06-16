@@ -56,9 +56,7 @@ class AuthController extends Controller
             DB::commit();
 
             return response()->json([
-                'data' => $user,
-                'access_token' => $token,
-                'token_type' => 'Bearer'
+                'message' => 'User has been regist'
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -171,72 +169,105 @@ public function login(Request $request)
 
 //////////////ADDSKIN/////////////////////
 
-    public function addskin(Request $request){
-        $rules = [
-            'amount' => 'numeric',
-        ];
-        $validator = Validator::make($rules, $request->all(), [
-            'date' => 'required|date',
-            'user_id' => 'required|string',
-            'bodypart' => 'required|string',
-            'since' => 'required|date',
-            'symptom' => 'required|string',
-            'cancertype' => 'required|string',
-            'accu' => 'required|float'
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
+public function addSkin(Request $request)
+{
 
-        $skin = skinmodel::create([
-            'date' => $request->date,
-            'user_id' => $request->user_id,
-            'bodypart' => $request->bodypart,
-            'since' => $request->since,
-            'symptom' => $request->symptom,
-            'cancertype' => $request->cancertype,
-            'accu' => $request->accu
-        ]);
-        return response()->json([
-            'message' => 'skin added'
-        ], 200);
+    // Create a new instance of the StorageClient
+    $storage = new StorageClient([
+        'projectId' => 'projectscantion',
+        'keyFilePath' => base_path() . '/keyfile.json',
+    ]);
+    // Get the bucket name
+    $bucketName = 'scantionpicture';
+    // Get the uploaded file
+    $file = $request->file('link');
+    // Generate a unique filename
+    $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+    // Upload the file to Google Cloud Storage
+    $bucket = $storage->bucket($bucketName);
+    $bucket->upload(
+        $file->get(),
+        [
+            'name' => $filename,
+        ]
+    );
+    // Return the public URL of the uploaded file
+    $publicUrl = "https://storage.googleapis.com/{$bucketName}/{$filename}";
+
+    $validator = Validator::make($request->all(), [
+        'date' => 'required|date',
+        'user_id' => 'required|string',
+        'bodypart' => 'required|string',
+        'since' => 'required|date',
+        'symptom' => 'required|string',
+        'cancertype' => 'required|string',
+        'accu' => 'required|numeric',
+        'link' => 'required|image'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
     }
+
+    $skin = skinmodel::create([
+        'date' => $request->date,
+        'user_id' => $request->user_id,
+        'bodypart' => $request->bodypart,
+        'since' => $request->since,
+        'symptom' => $request->symptom,
+        'cancertype' => $request->cancertype,
+        'accu' => $request->accu,
+        'link' => $publicUrl ?: 'default_link_value',
+    ]);
+
+    return response()->json([
+        'message' => 'Skin added',
+        'skin' => $skin,
+    ], 200);
+}
     ////////////addimage/////////////////////////
     public function store(Request $request)
     {
         // Validate the incoming request (e.g., file type, size, etc.)
-        $request->validate([
-            'image' => 'required|image|max:2048', // Assuming 'image' is the name of the input field
-        ]);
+        // $request->validate([
+        //     'image' => 'required|image', // Assuming 'image' is the name of the input field
+        // ]);
 
-        // Create a new instance of the StorageClient
-        $storage = new StorageClient([
-            'projectId' => 'projectscantion',
-            'keyFilePath' => base_path()."/keyfile.json",
-        ]);
+        // // Create a new instance of the StorageClient
+        // $storage = new StorageClient([
+        //     'projectId' => 'projectscantion',
+        //     'keyFilePath' => base_path()."/keyfile.json",
+        // ]);
 
-        // Get the bucket name
-        $bucketName = 'scantionpicture';
+        // // Get the bucket name
+        // $bucketName = 'scantionpicture';
 
-        // Get the uploaded file
-        $file = $request->file('image');
+        // // Get the uploaded file
+        // $file = $request->file('image');
 
-        // Generate a unique filename
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        // // Generate a unique filename
+        // $filename = uniqid() . '.' . $file->getClientOriginalExtension();
 
-        // Upload the file to Google Cloud Storage
-        $bucket = $storage->bucket($bucketName);
-        $bucket->upload(
-            $file->get(),
-            [
-                'name' => $filename,
-            ]
-        );
+        // // Upload the file to Google Cloud Storage
+        // $bucket = $storage->bucket($bucketName);
+        // $bucket->upload(
+        //     $file->get(),
+        //     [
+        //         'name' => $filename,
+        //     ]
+        // );
 
-        // Return the public URL of the uploaded file
-        $publicUrl = "https://storage.googleapis.com/{$bucketName}/{$filename}";
-        return response()->json(['url' => $publicUrl]);
+        // // Return the public URL of the uploaded file
+        // $publicUrl = "https://storage.googleapis.com/{$bucketName}/{$filename}";
+        // return response()->json(['url' => $publicUrl]);
+    }
+    public function skinmodel()
+    {
+        $user = auth()->user(); // Mendapatkan objek pengguna terotentikasi saat ini
+        $skinData = skinmodel::where('user_id', $user->id)->get(); // Mengambil data kulit pengguna terotentikasi saat ini
+
+        return response()->json($skinData);
     }
 
 }
