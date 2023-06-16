@@ -55,8 +55,8 @@ return [
         'gcs' => [
             'driver' => 'gcs',
             'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
-            'key_file' =>env('GOOGLE_CLOUD_KEY_FILE', base_path()."/keyfile.json"),
-            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'scantionpicture'),
+            'key_file' =>env('GOOGLE_CLOUD_KEY_FILE', "YOUR_FILE_PATH"),
+            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'YOUR_BUCKET'),
             'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', null), // optional: /default/path/to/apply/in/bucket
         ],
 

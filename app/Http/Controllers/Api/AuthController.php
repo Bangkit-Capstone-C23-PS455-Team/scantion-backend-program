@@ -175,11 +175,11 @@ public function addSkin(Request $request)
 
     // Create a new instance of the StorageClient
     $storage = new StorageClient([
-        'projectId' => 'projectscantion',
-        'keyFilePath' => base_path() . '/keyfile.json',
+        'projectId' => 'YOUR_PROJ_ID',
+        'keyFilePath' => YOUR_FILE_PATH,
     ]);
     // Get the bucket name
-    $bucketName = 'scantionpicture';
+    $bucketName = 'YOUR_BUCKET';
     // Get the uploaded file
     $file = $request->file('link');
     // Generate a unique filename
