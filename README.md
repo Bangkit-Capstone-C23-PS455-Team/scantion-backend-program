@@ -14,14 +14,17 @@ Before getting started, make sure you have the following prerequisites installed
 Follow these steps to set up your project:
 
 1. Clone the repository:
+```
 git clone <repository_url>
-
+```
 2. Navigate to the project directory:
+```
 cd <project_directory>
-
+```
 3.Install project dependencies using Composer:
+```
 composer install
-
+```
 4. Set up the MySQL database:
 
 - Create a new database in MySQL:
