@@ -1,0 +1,116 @@
+API DOCUMENTATION
+
+REGISTER
+    URL             : /register
+    Method          : POST
+    Params          :   name as string
+                        email as string, must be unique
+                        password as string
+                        age as integer
+                        province as string
+                        city as string
+    Response        : 
+                        {
+                            "message" => "User has been regist"
+                        }
+LOGIN
+    URL             : /login
+    Method          : POST
+    Params          :   email as string
+                        password as string
+    Response        :
+                        {
+                            "message": "Login success",
+                            "access_token": "0|svvMUShfKM5i2aWa1JmlZMVjgh6GrL35P3MBp7vj",
+                            "token_type": "Bearer"
+                        }
+
+GET USER
+    URL             : /user
+    Method          : GET
+    Authorization   : access_token
+    Response        :  {
+                            "id": "862b59b5-626e-4138-9ea2-5ba2cc6c747f",
+                            "name": "fari",
+                            "email": "andra@gmail.com",
+                            "age": 21,
+                            "province": "jateng",
+                            "city": "semarang"
+                        }
+UPDATE USER
+    URL             : /update/{id}
+    Method          : POST
+    body            :   name as string
+                        email as string
+                        password as string
+                        age as integer
+                        province as string
+                        city as string
+    Authorization   : access_token
+    Headers         :   key     =   accept
+                        value   =   application/json
+    Response        :   {
+                            "message": "Record has been updated"
+                        }
+
+ADD SKIN 
+    URL             : /addskin/{id}
+    Method          : POST
+    Params          :   date as date
+                        user_id as string
+                        bodypart as string
+                        since as date
+                        symptom as string
+                        cancertype as string
+                        accu as float
+    Authorization   : access_token
+    Haders 	    : key = content-type, value = multipart/form-data
+		      key     =   accept, value   =   application/json
+    Body	    : file| key = image, value = select files 
+    Response        :   {
+                            "message": "skin added"
+                        }
+
+DELETE USER
+    URL             : /deleteuser
+    Method          : POST
+    Authorization   : access_token
+    Response        :   {
+                            "message": "User has been deleted"
+                        }
+
+LOGOUT USER
+    URL             : /logout
+    Method          : POST
+    Authorization   : access_token
+    Response        :   {
+                        	'message' => 'logout success'
+                        }
+
+
+ADD IMAGE
+    URL             : /store
+    Method          : POST
+    Haders 	    : key = content-type, value = multipart/form-data
+    Body	    : file| key = image, value = select files 
+    Authorization   : access_token
+    Response        :   {
+    				"url": "https://storage.googleapis.com/scantionpicture/{filename}"
+			}
+
+GET ALL SKIN per user autentikasi
+    URL             : /skin
+    Method          : GET
+    Authorization   : access_token
+    Response        :   
+		 	{
+        			"id": "858932fe-ab7c-4095-aeda-e3343bcb03c3",
+        			"date": "2022-10-10",
+        			"user_id": "5c3c8b9a-6624-4ea6-99dd-f83314a4824b",
+        			"bodypart": "head",
+        			"since": "2022-10-10",
+        			"symptom": "itch",
+        			"cancertype": "melanoma",
+        			"accu": 90,
+        			"link": "YOUR_PHOTOS_LINK"
+    			}
